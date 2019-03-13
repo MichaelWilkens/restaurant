@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Current Reservations</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+        integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+
+<body>
+    <div class="container">
+        <div class="jumbotron col-10 m-auto text-center">
+            <h1 class="display-4">Hot Restaurant</h1>
+            <hr class="my-4">
+            <h2 class="pb-4">Current Reservations and Waiting List</h2>
+            <a href="/reservation" role="button"><button class="btn btn-lg btn-danger"><span class="fa fa-credit-card"></span> Make
+                    Reservation</button></a>
+            <a href="/" role="button"><button class="btn btn-lg btn-default bg-white"><span
+                        class="fa fa-home"></span></button></a>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="col-10 m-auto pt-3">
+            <div class="card">
+                <div class="card-header">
+                    <h4>Current Reservations</h4>
+                </div>
+                <div class="card-body">
+                    <ul id="tableList" class="list-group">
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="col-10 m-auto pt-3">
+            <div class="card mt-4">
+                <div class="card-header">
+                    <h4>Waiting List</h4>
+                </div>
+                <div class="card-body">
+                    <ul id="waitList" class="list-group"></ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container pt-3">
+        <footer>
+            <p>
+                <a href="/api/tables">API Table Link</a>
+                |
+                <a href="/api/waitlist">API Wait List</a>
+            </p>
+        </footer>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+        
+    <script
+        src="http://code.jquery.com/jquery-3.3.1.js"
+        integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+        crossorigin="anonymous"></script>
+
+    <!-- JS -->
+    <script>
+
+        $.get('/api/reservation',function(data){
+            console.log(data)
+           for(var i=0;i<5;i++){
+               var name = data[i].name;
+               var id = data[i].id;
+               var email = data[i].email;
+               var number = data[i].number;
+
+               $('#tableList').append($('<li>').attr('class', "list-group-item mt-4").html('<h2>' + 'Table #' + (i+1) + '</h2>' + '<hr>' + '<h2>ID: ' + id + '</h2>' + '<h2>Name: ' + name + '</h2>' + '<h2>Email: ' + email + '</h2>' + '<h2>Number: ' + number + '</h2>' ));
+           }
+
+           if(data.length>5){
+               for(var i = 5;i<data.length;i++){
+                    var name = data[i].name;
+                    var id = data[i].id;
+                    var email = data[i].email;
+                    var number = data[i].number;
+
+                    $('#waitList').append($('<li>').attr('class', "list-group-item mt-4").html('<h2>' + 'Table #' + (i-4) + '</h2>' + '<hr>' + '<h2>ID: ' + id + '</h2>' + '<h2>Name: ' + name + '</h2>' + '<h2>Email: ' + email + '</h2>' + '<h2>Number: ' + number + '</h2>' ));
+
+               }
+           }
+
+        })
+
+    </script>
+
+</body>
+
+</html>
